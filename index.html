@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@300;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=Outfit:wght@300;500;700&display=swap"
         rel="stylesheet">
     <style>
         :root {
@@ -35,6 +35,68 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Film Grain Overlay */
+        body::after {
+            content: "";
+            position: fixed;
+            top: -100%;
+            left: -100%;
+            width: 300%;
+            height: 300%;
+            background-image: url("https://upload.wikimedia.org/wikipedia/commons/7/76/Noise_grain_texture.png");
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 10000;
+            animation: grain 8s steps(10) infinite;
+        }
+
+        @keyframes grain {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            10% {
+                transform: translate(-5%, -5%);
+            }
+
+            20% {
+                transform: translate(-10%, 5%);
+            }
+
+            30% {
+                transform: translate(5%, -10%);
+            }
+
+            40% {
+                transform: translate(-5%, 15%);
+            }
+
+            50% {
+                transform: translate(-10%, 5%);
+            }
+
+            60% {
+                transform: translate(15%, 0);
+            }
+
+            70% {
+                transform: translate(0, 10%);
+            }
+
+            80% {
+                transform: translate(-15%, 0);
+            }
+
+            90% {
+                transform: translate(10%, 5%);
+            }
+
+            100% {
+                transform: translate(5%, 0);
+            }
         }
 
         /* Typography */
@@ -185,7 +247,9 @@
         }
 
         .hero-punjabi {
-            font-size: 3rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 3.5rem;
             margin-bottom: 1.5rem;
             display: block;
             opacity: 0;
@@ -295,11 +359,26 @@
             font-family: var(--font-heading);
             font-size: 1.2rem;
             color: var(--text-color);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid transparent;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            color: var(--accent-color);
+            padding-left: 10px;
+            border-bottom: 1px solid rgba(109, 164, 216, 0.2);
         }
 
         .menu-item .price {
             color: #777;
             font-weight: 300;
+            transition: color 0.3s ease;
+        }
+
+        .menu-item:hover .price {
+            color: var(--accent-color);
         }
 
 
@@ -567,9 +646,9 @@
             <p>Tue & Thu: Closed</p>
         </div>
         <div class="footer-info">
-            <h4>Contact</h4>
-            <p>hello@roznewyork.com</p>
-            <p>@roznewyork</p>
+            <h4>Now</h4>
+            <p id="ny-time">New York: 00:00 AM</p>
+            <p id="store-status" style="color: var(--accent-color); letter-spacing: 0.05em;"></p>
         </div>
     </footer>
 
@@ -601,6 +680,40 @@
             section.style.transition = 'all 1s ease-out';
             observer.observe(section);
         });
+        // Update NY Time and Status
+        function updateNYStatus() {
+            const timeEl = document.getElementById('ny-time');
+            const statusEl = document.getElementById('store-status');
+
+            const options = {
+                timeZone: 'America/New_York',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            };
+
+            const now = new Date();
+            const nyTimeString = now.toLocaleTimeString('en-US', options);
+            timeEl.innerText = `New York: ${nyTimeString}`;
+
+            const day = now.toLocaleDateString('en-US', { timeZone: 'America/New_York', weekday: 'long' });
+            const hour = parseInt(now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false }));
+
+            // Simplified Hours: Mon, Wed, Fri-Sun: 8am - 4pm. Tue & Thu: Closed.
+            const closedDays = ['Tuesday', 'Thursday'];
+            let isOpen = false;
+
+            if (!closedDays.includes(day)) {
+                if (hour >= 8 && hour < 16) {
+                    isOpen = true;
+                }
+            }
+
+            statusEl.innerText = isOpen ? '• Open now — come in' : '• Closed — see you soon';
+        }
+
+        setInterval(updateNYStatus, 1000);
+        updateNYStatus();
     </script>
 </body>
 
