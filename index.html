@@ -237,13 +237,23 @@
         }
 
         .hero h1 {
-            font-size: 5rem;
+            font-size: 8rem;
             font-weight: 300;
             letter-spacing: -0.05em;
             line-height: 1;
             margin-bottom: 0.5rem;
-            opacity: 0;
-            animation: fadeUp 1s ease-out forwards 0.5s;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .hero h1 .char {
+            display: inline-block;
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        .hero h1.active .char {
+            transform: translateY(0);
         }
 
         .hero-punjabi {
@@ -317,6 +327,31 @@
             border-radius: 4px;
             position: relative;
             background-attachment: scroll;
+            overflow: hidden;
+        }
+
+        /* Image Reveal Effect */
+        .reveal-box {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reveal-box::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            transform: scaleX(1);
+            transform-origin: right;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 2;
+        }
+
+        .reveal-box.active::after {
+            transform: scaleX(0);
         }
 
         /* Ghosted Typography */
@@ -605,7 +640,7 @@
             <br>
             <p>rōz is moody, grounded, and made for <i>every day</i> <span class="heart-icon">♥</span></p>
         </div>
-        <div class="about-img"></div>
+        <div class="about-img reveal-box"></div>
     </section>
 
     <section id="menu" class="menu-section">
@@ -688,21 +723,36 @@
         });
 
 
+        // Split title into characters
+        const title = document.querySelector('.hero h1');
+        const text = title.textContent;
+        title.innerHTML = text.split('').map((char, i) =>
+            `<span class="char" style="transition-delay: ${i * 0.1}s">${char === ' ' ? '&nbsp;' : char}</span>`
+        ).join('');
+
+        // Trigger hero animation after load
+        window.addEventListener('load', () => {
+            title.classList.add('active');
+        });
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                     entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.style.transform = 'translateY(0) scale(1)';
                 }
             });
         }, { threshold: 0.1 });
 
         // Apply movement animations
-        document.querySelectorAll('section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(50px)';
-            section.style.transition = 'all 1.2s cubic-bezier(0.165, 0.84, 0.44, 1)';
-            observer.observe(section);
+        document.querySelectorAll('section, .reveal-box').forEach(el => {
+            if (el.tagName === 'SECTION') {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(30px) scale(0.98)';
+                el.style.transition = 'all 1.4s cubic-bezier(0.165, 0.84, 0.44, 1)';
+            }
+            observer.observe(el);
         });
 
         // Parallax Effect Logic
