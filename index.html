@@ -4,22 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>rōz coffee + design</title>
+    <title>rōz</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500&family=Outfit:wght@300;500;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Outfit:wght@300;500;700&family=Inter:wght@300;400;500&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --bg-color: #e8e6e1;
-            /* Warm concrete */
-            --text-color: #2c2c2c;
-            /* Soft Black */
-            --accent-color: #6da4d8;
-            /* Fresh Blue from Logo */
+            --bg-color: #fcfcfc;
+            --bg-accent: #eae8e1;
+            /* Concrete / warm plaster gray (instagram vibe) */
+            --text-color: #1a1a1a;
+            --text-muted: #666666;
+            --accent-color: #9ebaff;
+            /* Precise brand periwinkle */
+            --border-color: rgba(0, 0, 0, 0.06);
             --surface-color: #ffffff;
-            --font-heading: 'Outfit', sans-serif;
+            --font-heading: 'Dela Gothic One', cursive;
+            --font-subheading: 'Outfit', sans-serif;
             --font-body: 'Inter', sans-serif;
         }
 
@@ -120,55 +123,74 @@
             position: fixed;
             top: 0;
             width: 100%;
-            padding: 2rem 3rem;
+            padding: 1.8rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             background: transparent;
             z-index: 1000;
-            transition: background 0.3s ease, padding 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         nav.scrolled {
-            background: rgba(232, 230, 225, 0.95);
+            background: rgba(252, 252, 252, 0.96);
             backdrop-filter: blur(10px);
-            padding: 1rem 3rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 1.2rem 4rem;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        .logo img {
-            height: 50px;
-            width: auto;
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            text-transform: lowercase;
+            letter-spacing: -0.06em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 76px;
+            height: 76px;
+            border: 2px solid var(--accent-color);
             border-radius: 50%;
-            /* Ensuring circular logo looks good */
+            -webkit-text-stroke: 1.2px var(--accent-color);
+            line-height: 1;
+            padding-right: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+            background: rgba(158, 186, 255, 0.08);
         }
 
         .nav-links {
             display: flex;
-            gap: 3rem;
+            gap: 2.5rem;
             list-style: none;
         }
 
         .nav-links a {
-            font-size: 0.9rem;
+            font-family: var(--font-subheading);
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             color: var(--text-color);
-            font-weight: 400;
+            font-weight: 500;
         }
 
         .nav-links a::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 1px;
+            height: 1.5px;
             bottom: -5px;
             left: 0;
             background: var(--accent-color);
             transition: width 0.3s ease;
         }
 
-        .nav-links a:hover::after {
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
             width: 100%;
         }
 
@@ -181,6 +203,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .hero-bg {
@@ -189,22 +212,11 @@
             left: 0;
             width: 100%;
             height: 120%;
-            /* Extra height for parallax */
-            background-image: url('assets/architectural_coffee_shop_interior_1766457094502.png');
+            background-image: url('assets/pastry_layout.png');
             background-size: cover;
             background-position: center;
             z-index: -1;
             will-change: transform;
-        }
-
-        @keyframes slowZoom {
-            from {
-                transform: scale(1);
-            }
-
-            to {
-                transform: scale(1.05);
-            }
         }
 
         .hero::before {
@@ -214,287 +226,275 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.1);
-            /* Very subtle tint */
+            background: rgba(0, 0, 0, 0.35);
         }
 
         .hero-content {
             z-index: 1;
             text-align: center;
             color: #fff;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            /* Better legibility without distortion */
-        }
-
-        .hero-logo-main {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            display: block;
-            margin: 0 auto 2rem;
-            opacity: 0;
-            animation: fadeUp 1s ease-out forwards 0.3s;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .hero h1 {
-            font-size: 8rem;
-            font-weight: 300;
-            letter-spacing: -0.05em;
-            line-height: 1;
-            margin-bottom: 0.5rem;
+            font-size: 8.2vw;
+            font-weight: 500;
+            letter-spacing: -0.06em;
+            width: 26vw;
+            height: 26vw;
+            border: 0.4vw solid var(--accent-color);
+            border-radius: 50%;
             display: flex;
+            align-items: center;
             justify-content: center;
-            overflow: hidden;
+            color: var(--accent-color);
+            -webkit-text-stroke: 0.15vw var(--accent-color);
+            margin: 0 auto;
+            text-transform: lowercase;
+            padding-right: 0.5vw;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .hero h1 .char {
-            display: inline-block;
-            transform: translateY(100%);
-            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-
-        .hero h1.active .char {
-            transform: translateY(0);
-        }
-
-        .hero-punjabi {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            display: block;
-            opacity: 0;
-            animation: fadeUp 1s ease-out forwards 0.7s;
+        .hero h1:hover {
+            transform: scale(1.03);
         }
 
         .hero p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            opacity: 0;
-            animation: fadeUp 1s ease-out forwards 0.8s;
+            font-family: var(--font-subheading);
+            font-size: 1.6rem;
+            color: var(--accent-color);
+            margin-top: 1.5rem;
+            text-transform: lowercase;
+            letter-spacing: -0.02em;
+            animation: fadeUp 1s ease-out forwards;
+        }
+
+        .hero .instagram-handle {
+            font-family: var(--font-subheading);
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            opacity: 0.75;
+            margin-top: 0.8rem;
+            display: block;
+            letter-spacing: 0.05em;
         }
 
         /* Philosophy / About */
         section {
-            padding: 8rem 10%;
+            padding: 10rem 10%;
         }
 
         .about {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 6rem;
+            gap: 8rem;
             align-items: center;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .about h2 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             color: var(--accent-color);
             margin-bottom: 2rem;
             line-height: 1.1;
+            text-transform: lowercase;
         }
 
         .about p {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             margin-bottom: 2rem;
-            color: #555;
-            font-weight: 300;
+            color: var(--text-color);
+            font-weight: 400;
         }
 
         .about-poem p {
-            margin-bottom: 0.75rem;
-            color: #444;
-            font-size: 1.15rem;
-        }
-
-        .about-poem .highlight {
-            color: var(--accent-color);
-            font-weight: 700;
-            /* Bolder for the Punjabi text */
-        }
-
-        .heart-icon {
-            color: var(--accent-color);
-            font-size: 1.2rem;
-            vertical-align: middle;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+            font-size: 1.35rem;
+            font-family: var(--font-subheading);
+            font-weight: 300;
+            line-height: 1.5;
         }
 
         .about-img {
-            height: 600px;
-            background-image: url('assets/latte_art_concrete_1766457107860.png');
+            aspect-ratio: 4 / 5;
+            width: 100%;
+            background-image: url('assets/roz_paper_cup.png');
+            /* Updated aesthetic image */
             background-size: cover;
             background-position: center;
-            border-radius: 4px;
-            position: relative;
-            background-attachment: scroll;
-            overflow: hidden;
-        }
-
-        /* Image Reveal Effect */
-        .reveal-box {
+            border-radius: 8px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.06);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .reveal-box::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-color);
-            transform: scaleX(1);
-            transform-origin: right;
-            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
-            z-index: 2;
+        .about-img:hover {
+            transform: scale(1.02);
         }
 
-        .reveal-box.active::after {
-            transform: scaleX(0);
-        }
-
-        /* Ghosted Typography */
-        .ghost-text {
-            position: absolute;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 25vw;
-            color: rgba(109, 164, 216, 0.04);
-            white-space: nowrap;
-            pointer-events: none;
-            z-index: -1;
-            font-weight: 600;
-        }
-
-        .ghost-1 {
-            top: 10%;
-            left: -5%;
-        }
-
-        .ghost-2 {
-            bottom: 0%;
-            right: -10%;
-        }
-
-        /* Menu - Minimalist List */
+        /* Menu Section - Editorial Layout */
         .menu-section {
-            background-color: #e0ded9;
-            /* Slightly darker shade */
+            background-color: var(--bg-accent);
+            border-bottom: 1px solid var(--border-color);
         }
 
         .menu-header {
             text-align: center;
-            margin-bottom: 6rem;
+            margin-bottom: 8rem;
+        }
+
+        .menu-header h2 {
+            font-size: 4.5rem;
+            text-transform: lowercase;
+            letter-spacing: -0.04em;
         }
 
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 4rem 8rem;
+            gap: 6rem 8rem;
             max-width: 1200px;
             margin: 0 auto;
         }
 
         .menu-category h3 {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border-bottom: 1px solid rgba(84, 110, 122, 0.2);
-            padding-bottom: 1rem;
+            font-size: 2.2rem;
+            color: var(--text-color);
+            margin-bottom: 2.5rem;
+            text-transform: lowercase;
+            letter-spacing: -0.03em;
+            border-bottom: 1.5px solid rgba(0, 0, 0, 0.08);
+            padding-bottom: 0.5rem;
         }
 
         .menu-items {
             list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }
 
         .menu-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
-            font-family: var(--font-heading);
-            font-size: 1.2rem;
+            align-items: flex-start;
+            font-family: var(--font-subheading);
+            padding-bottom: 1rem;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+        }
+
+        .menu-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .menu-item-name {
+            font-size: 1.25rem;
+            font-weight: 500;
             color: var(--text-color);
-            padding: 0.5rem 0;
-            border-bottom: 1px solid transparent;
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-            cursor: pointer;
         }
 
-        .menu-item:hover {
-            color: var(--accent-color);
-            padding-left: 10px;
-            border-bottom: 1px solid rgba(109, 164, 216, 0.2);
+        .menu-item .sizes {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
-        .menu-item .price {
-            color: #777;
-            font-weight: 300;
-            transition: color 0.3s ease;
+        .menu-item-price {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--text-color);
+            margin-left: 1rem;
         }
 
-        .menu-item:hover .price {
-            color: var(--accent-color);
+        /* Space/Gallery Bento Grid Layout */
+        #gallery {
+            border-bottom: 1px solid var(--border-color);
+            background-color: var(--bg-color);
         }
 
+        #gallery h2 {
+            font-size: 4.5rem;
+            text-align: center;
+            margin-bottom: 6rem;
+            text-transform: lowercase;
+            letter-spacing: -0.04em;
+        }
 
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            grid-auto-rows: 250px;
-            gap: 0.5rem;
-            padding: 0 0.5rem;
+            grid-auto-rows: 280px;
+            gap: 1.2rem;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
         .gallery-image {
-            background-color: #ccc;
+            background-color: #eee;
             background-size: cover;
             background-position: center;
-            transition: all 0.5s ease;
+            border-radius: 6px;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             cursor: pointer;
-            filter: grayscale(15%);
             overflow: hidden;
-            /* Crop any inner spill */
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.02);
         }
 
         .gallery-image:hover {
-            transform: scale(0.99);
-            filter: grayscale(0%);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
         }
 
+        /* Bento Photo Grid Mapping */
         .g-1 {
             grid-column: span 6;
-            grid-row: span 3;
-            background-image: url('assets/samosa_plate.jpg');
+            grid-row: span 2;
+            background-image: url('assets/shelf_marshall_pink.png');
         }
 
         .g-2 {
             grid-column: span 3;
             grid-row: span 2;
-            background-image: url('assets/blue_resin_bowls.png');
+            background-image: url('assets/coffee_pastry_table.jpg');
         }
 
         .g-3 {
             grid-column: span 3;
-            grid-row: span 2;
-            background-image: url('assets/ceramic_cup.png');
+            grid-row: span 1;
+            background-image: url('assets/acne_paper_coffee.jpg');
         }
 
         .g-4 {
             grid-column: span 6;
-            grid-row: span 2;
-            background-image: url('assets/interior_tables.png');
+            grid-row: span 1;
+            background-image: none;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #fff;
-            font-family: var(--font-heading);
-            font-size: 2.5rem;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            font-weight: 700;
+            color: var(--text-color);
+            background-color: var(--bg-accent);
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            text-align: center;
+        }
+
+        .g-4 h4 {
+            font-size: 2.4rem;
+            text-transform: lowercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .g-4 p {
+            font-family: var(--font-subheading);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            max-width: 380px;
         }
 
         .g-5 {
@@ -506,50 +506,124 @@
         .g-6 {
             grid-column: span 3;
             grid-row: span 1;
-            background-image: url('assets/coffee_beans.png');
+            background-image: url('assets/green_clay_cup.jpg');
         }
 
         .g-7 {
             grid-column: span 6;
             grid-row: span 1;
-            background-image: url('assets/latte_stool_top.png');
+            background-image: url('assets/coffee_croissant_slotted.jpg');
         }
 
-        /* Footer */
+        /* Footer Redesign */
         footer {
             background-color: var(--text-color);
             color: #fff;
-            padding: 6rem 10%;
+            padding: 8rem 10%;
+            display: grid;
+            grid-template-columns: 2.2fr 1fr 1fr 1.5fr;
+            gap: 6rem;
+            align-items: start;
+        }
+
+        .footer-brand {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+            flex-direction: column;
         }
 
-        .footer-logo {
+        .footer-brand h2 {
             font-family: var(--font-heading);
-            font-size: 3rem;
-            font-weight: 700;
-            color: #fff;
-            opacity: 0.2;
+            font-size: 2.4rem;
+            color: var(--accent-color);
+            text-transform: lowercase;
+            -webkit-text-stroke: 1.5px var(--accent-color);
+            letter-spacing: -0.06em;
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            padding-right: 2px;
+            transition: transform 0.4s ease;
         }
 
-        .footer-info h4 {
-            margin-bottom: 1.5rem;
-            font-family: var(--font-heading);
+        .footer-brand h2:hover {
+            transform: rotate(-5deg) scale(1.05);
+        }
+
+        .footer-brand p {
+            color: #b5b3ad;
+            font-size: 1.1rem;
+            max-width: 280px;
+            line-height: 1.4;
+        }
+
+        .footer-brand .live-status {
+            font-family: var(--font-subheading);
+            font-size: 0.8rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        .footer-column h4 {
+            font-family: var(--font-subheading);
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+
+        .footer-column p,
+        .footer-column a {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+            display: block;
+            line-height: 1.6;
+        }
+
+        .footer-column a:hover {
             color: var(--accent-color);
         }
 
-        .footer-info p {
-            margin-bottom: 0.5rem;
-            color: #999;
+        .footer-map-container {
+            width: 100%;
+            height: 220px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            filter: grayscale(1) invert(0.9) brightness(0.8);
+            transition: all 0.5s ease;
+        }
+
+        .footer-map-container:hover {
+            filter: grayscale(0.2) invert(0) brightness(1);
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         @keyframes fadeUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
 
             to {
@@ -558,51 +632,198 @@
             }
         }
 
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 4rem;
-            }
-
+        /* Responsive Layouts */
+        @media (max-width: 1024px) {
             .about {
-                grid-template-columns: 1fr;
-            }
-
-            .about-img {
-                height: 400px;
-                order: -1;
-            }
-
-            .menu-grid {
                 grid-template-columns: 1fr;
                 gap: 4rem;
             }
 
+            .about-img {
+                aspect-ratio: 1.2 / 1;
+                max-height: 450px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 5rem;
+            }
+
             .gallery-grid {
-                display: flex;
-                flex-direction: column;
+                grid-template-columns: repeat(6, 1fr);
             }
 
             .g-1,
             .g-2,
-            .g-3 {
+            .g-5,
+            .g-7 {
+                grid-column: span 6;
+                grid-row: span 1;
                 height: 300px;
             }
 
+            .g-3,
+            .g-6 {
+                grid-column: span 3;
+                height: 300px;
+            }
+
+            .g-4 {
+                grid-column: span 6;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
             nav {
-                padding: 1.5rem;
+                padding: 1.5rem 2rem;
             }
 
             .nav-links {
                 display: none;
             }
 
-            /* Simplified for now */
+            .hero h1 {
+                font-size: 18vw;
+                width: 55vw;
+                height: 55vw;
+                border-width: 1vw;
+            }
+
+            .hero p {
+                font-size: 1.3rem;
+            }
+
+            .story-text h2,
+            .menu-header h2,
+            #gallery h2 {
+                font-size: 3.5rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+
+            .g-1,
+            .g-2,
+            .g-3,
+            .g-4,
+            .g-5,
+            .g-6,
+            .g-7 {
+                grid-column: span 12;
+                grid-row: span 1;
+                height: 280px;
+            }
+
             footer {
-                flex-direction: column;
+                padding: 5rem 2rem;
+                grid-template-columns: 1fr;
                 gap: 4rem;
-                text-align: center;
-                align-items: center;
+            }
+
+            .footer-brand h2 {
+                font-size: 2.8rem;
+            }
+        }
+
+        /* ── iPhone / small mobile (≤430px) ── */
+        @media (max-width: 430px) {
+            nav {
+                padding: 1.2rem 1.5rem;
+            }
+
+            .logo {
+                width: 52px;
+                height: 52px;
+                font-size: 1.3rem;
+            }
+
+            section {
+                padding: 6rem 5%;
+            }
+
+            .hero h1 {
+                font-size: 22vw;
+                width: 64vw;
+                height: 64vw;
+                border-width: 1.2vw;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero .instagram-handle {
+                font-size: 0.85rem;
+            }
+
+            .about {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .about h2 {
+                font-size: 2.8rem;
+            }
+
+            .about p,
+            .about-poem p {
+                font-size: 1.05rem;
+            }
+
+            .about-img {
+                aspect-ratio: 4 / 3;
+                max-height: 320px;
+            }
+
+            .menu-header h2,
+            #gallery h2 {
+                font-size: 2.8rem;
+            }
+
+            .menu-category h3 {
+                font-size: 1.7rem;
+            }
+
+            .menu-item-name {
+                font-size: 1rem;
+            }
+
+            .menu-item-price {
+                font-size: 1rem;
+            }
+
+            .g-1, .g-2, .g-3, .g-4, .g-5, .g-6, .g-7 {
+                height: 220px;
+            }
+
+            .g-4 h4 {
+                font-size: 1.8rem;
+            }
+
+            .g-4 p {
+                font-size: 0.85rem;
+            }
+
+            footer {
+                padding: 4rem 1.5rem;
+                gap: 3rem;
+            }
+
+            .footer-brand h2 {
+                width: 72px;
+                height: 72px;
+                font-size: 1.8rem;
+            }
+
+            .footer-brand p {
+                font-size: 0.95rem;
+            }
+
+            .footer-map-container {
+                height: 180px;
             }
         }
     </style>
@@ -611,179 +832,250 @@
 <body>
 
     <nav>
-        <a href="#" class="logo"><img src="assets/roz_logo_final.jpg" alt="rōz"></a>
+        <a href="#" class="logo">rōz</a>
         <ul class="nav-links">
-            <li><a href="#about">Philosophy</a></li>
-            <li><a href="#menu">Menu</a></li>
-            <li><a href="#gallery">Space</a></li>
-            <li><a href="#visit">Visit</a></li>
+            <li><a href="#about" class="nav-link">Story</a></li>
+            <li><a href="#menu" class="nav-link">Menu</a></li>
+            <li><a href="#gallery" class="nav-link">Space</a></li>
+            <li><a href="#visit" class="nav-link">Visit</a></li>
         </ul>
     </nav>
 
     <header class="hero">
         <div class="hero-bg"></div>
         <div class="hero-content">
-            <img src="assets/roz_logo_final.jpg" alt="rōz logo" class="hero-logo-main">
-            <h1>rōz</h1>
-            <span class="hero-punjabi">ਰੋਜ਼</span>
-            <p>Elevated Essentials in New York</p>
+            <h1 class="reveal">rōz</h1>
+            <p>coffee + design</p>
+            <span class="instagram-handle">@roznewyork</span>
         </div>
     </header>
 
     <section id="about" class="about">
-        <div class="ghost-text ghost-1">ਰੋਜ਼</div>
-        <div class="about-text about-poem">
+        <div class="about-text about-poem reveal">
             <h2>rōz</h2>
-            <p><span class="highlight">ਰੋਜ਼</span> (pronounced rose) means "every day" in panjabi</p>
-            <p>named after my mom, whose love shapes me</p>
-            <p>raised in the hudson valley, this space is a return to my roots</p>
+            <p class="pronounced">pronounced rose</p>
+            <p>named after my mom, whose love shapes me.</p>
+            <p>raised in the hudson valley, this space is a return to my roots.</p>
             <p>every cup, every corner, every detail celebrates the beauty of the world, the people we love, and the
-                life we live</p>
+                life we live.</p>
             <br>
-            <p>rōz is moody, grounded, and made for <i>every day</i> <span class="heart-icon">♥</span></p>
+
         </div>
-        <div class="about-img reveal-box"></div>
+        <div class="about-img reveal"></div>
     </section>
 
     <section id="menu" class="menu-section">
-        <div class="menu-header">
-            <h2>Curated Selection</h2>
+        <div class="menu-header reveal">
+            <h2>menu</h2>
         </div>
         <div class="menu-grid">
-            <div class="menu-category">
-                <h3>Espresso</h3>
+            <div class="menu-category reveal">
+                <h3>hot menu</h3>
                 <ul class="menu-items">
-                    <li class="menu-item"><span>Espresso</span><span class="price">4.0</span></li>
-                    <li class="menu-item"><span>Cortado</span><span class="price">4.5</span></li>
-                    <li class="menu-item"><span>Flat White</span><span class="price">5.0</span></li>
-                    <li class="menu-item"><span>Cappuccino</span><span class="price">5.0</span></li>
-                    <li class="menu-item"><span>Latte</span><span class="price">6.0</span></li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">drip coffee</span>
+                            <span class="sizes">8 oz / 12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">3.50 / 4.00</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">espresso</span>
+                            <span class="sizes">double shot</span>
+                        </div>
+                        <span class="menu-item-price">3.75</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">americano</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">4.00</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">cappuccino</span>
+                            <span class="sizes">8 oz</span>
+                        </div>
+                        <span class="menu-item-price">4.50</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">cortado</span>
+                            <span class="sizes">4 oz</span>
+                        </div>
+                        <span class="menu-item-price">4.25</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">latte</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">5.00 / 5.50</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">mocha</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">5.50 / 6.00</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">masala chai</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">5.25 / 5.75</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">hot chocolate</span>
+                            <span class="sizes">12 oz</span>
+                        </div>
+                        <span class="menu-item-price">4.50</span>
+                    </li>
                 </ul>
             </div>
-            <div class="menu-category">
-                <h3>Signature</h3>
+            <div class="menu-category reveal">
+                <h3>cold & customizable</h3>
                 <ul class="menu-items">
-                    <li class="menu-item"><span>Cold Brew</span><span class="price">6.5</span></li>
-                    <li class="menu-item"><span>Latte</span><span class="price">7.0</span></li>
-                    <li class="menu-item"><span>Matcha</span><span class="price">6.5</span></li>
-                    <li class="menu-item"><span>Hōjicha Latte</span><span class="price">6.5</span></li>
-                </ul>
-            </div>
-            <div class="menu-category">
-                <h3>Pastry</h3>
-                <ul class="menu-items">
-                    <li class="menu-item"><span>Samosa</span><span class="price">3.5</span></li>
-                    <li class="menu-item"><span>Pain au Chocolat</span><span class="price">5.0</span></li>
-                    <li class="menu-item"><span>Almond Financier</span><span class="price">3.5</span></li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">iced coffee</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">4.00 / 4.50</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">iced americano</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">4.25</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">iced latte</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">5.25 / 5.75</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">iced mocha</span>
+                            <span class="sizes">12 oz / 16 oz</span>
+                        </div>
+                        <span class="menu-item-price">5.75 / 6.25</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">house syrups</span>
+                            <span class="sizes">vanilla / salted caramel / rōz flavor</span>
+                        </div>
+                        <span class="menu-item-price">+0.75</span>
+                    </li>
+                    <li class="menu-item">
+                        <div class="menu-item-info">
+                            <span class="menu-item-name">alternative milks</span>
+                            <span class="sizes">organic oat milk</span>
+                        </div>
+                        <span class="menu-item-price">+1.00</span>
+                    </li>
                 </ul>
             </div>
         </div>
     </section>
 
     <section id="gallery">
-        <div class="ghost-text ghost-2">ਰੋਜ਼</div>
-        <h2>The Space</h2>
+        <h2 class="reveal">space</h2>
         <div class="gallery-grid">
-            <div class="gallery-image g-1"></div>
-            <div class="gallery-image g-2"></div>
-            <div class="gallery-image g-3"></div>
-            <div class="gallery-image g-4">rōz</div>
-            <div class="gallery-image g-5"></div>
-            <div class="gallery-image g-6"></div>
-            <div class="gallery-image g-7"></div>
+            <div class="gallery-image g-1 reveal"></div>
+            <div class="gallery-image g-2 reveal"></div>
+            <div class="gallery-image g-3 reveal"></div>
+            <div class="gallery-image g-4 reveal">
+                <h4>rōz</h4>
+                <p>coffee + design</p>
+            </div>
+            <div class="gallery-image g-5 reveal"></div>
+            <div class="gallery-image g-6 reveal"></div>
+            <div class="gallery-image g-7 reveal"></div>
         </div>
     </section>
 
     <footer id="visit">
-        <div class="footer-logo">rōz</div>
-        <div class="footer-info">
-            <h4>Visit</h4>
-            <p>1086 NY-9D, Cold Spring, New York</p>
+        <div class="footer-brand">
+            <h2>rōz</h2>
+            <p>coffee + design</p>
+            <p id="store-status" style="color: var(--accent-color); font-weight: 500; margin-top: 1rem;"></p>
+            <p id="ny-time" style="color: #8c8983; font-size: 0.85rem; margin-top: 0.5rem;"></p>
+        </div>
+
+        <div class="footer-column">
+            <h4>visit</h4>
+            <p>1086 NY-9D</p>
             <p>Cold Spring, NY 10516</p>
+            <br>
+            <a href="mailto:hello@roznewyork.com">hello@roznewyork.com</a>
+            <a href="https://instagram.com/roznewyork" target="_blank">@roznewyork</a>
         </div>
-        <div class="footer-info">
-            <h4>Holiday Hours</h4>
-            <p>Mon, Wed, Fri-Sun: 8am - 4pm</p>
-            <p>Tue & Thu: Closed</p>
+
+        <div class="footer-column">
+            <h4>hours</h4>
+            <p>8am – 4pm</p>
+            <p>every day</p>
+            <br>
+            <p style="color: #666;">Tuesday: Closed</p>
         </div>
-        <div class="footer-info">
-            <h4>Now</h4>
-            <p id="ny-time">New York: 00:00 AM</p>
-            <p id="store-status" style="color: var(--accent-color); letter-spacing: 0.05em;"></p>
+
+        <div class="footer-column">
+            <h4>map</h4>
+            <div class="footer-map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000.0!2d-73.9455321!3d41.4234567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89dd3362624da6eb%3A0x8677f59d9c22e4d0!2s1086%20NY-9D%2C%20Cold%20Spring%2C%20NY%2010516!5e0!3m2!1sen!2sus!4v1700000000000"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
         </div>
     </footer>
 
     <script>
-
+        // Navbar Scrolled Effect
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('scrolled');
-            } else {
-                nav.classList.remove('scrolled');
+            if (nav) {
+                nav.classList.toggle('scrolled', window.scrollY > 50);
             }
         });
 
-
-        // Split title into characters
-        const title = document.querySelector('.hero h1');
-        const text = title.textContent;
-        title.innerHTML = text.split('').map((char, i) =>
-            `<span class="char" style="transition-delay: ${i * 0.1}s">${char === ' ' ? '&nbsp;' : char}</span>`
-        ).join('');
-
-        // Trigger hero animation after load
+        // Trigger hero animation
         window.addEventListener('load', () => {
-            title.classList.add('active');
+            const title = document.querySelector('.hero h1');
+            if (title) {
+                title.classList.add('active');
+            }
         });
 
-        const observer = new IntersectionObserver((entries) => {
+        // Intersection Observer for slide-up reveals
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0) scale(1)';
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15 });
 
-        // Apply movement animations
-        document.querySelectorAll('section, .reveal-box').forEach(el => {
-            if (el.tagName === 'SECTION') {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(30px) scale(0.98)';
-                el.style.transition = 'all 1.4s cubic-bezier(0.165, 0.84, 0.44, 1)';
-            }
-            observer.observe(el);
-        });
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-        // Parallax Effect Logic
+        // Parallax Effects
         window.addEventListener('scroll', () => {
             const scrolled = window.scrollY;
-
-            // Hero background parallax
             const heroBg = document.querySelector('.hero-bg');
-            if (heroBg) {
-                heroBg.style.transform = `translateY(${scrolled * 0.4}px)`;
-            }
-
-            // Ghost text parallax
-            document.querySelectorAll('.ghost-text').forEach((text, index) => {
-                const speed = (index + 1) * 0.15;
-                text.style.transform = `translateY(${scrolled * speed}px)`;
-            });
-
-            // Subtle parallax for about image
-            const aboutImg = document.querySelector('.about-img');
-            if (aboutImg) {
-                const rect = aboutImg.getBoundingClientRect();
-                if (rect.top < window.innerHeight && rect.bottom > 0) {
-                    const offset = (window.innerHeight - rect.top) * 0.1;
-                    aboutImg.style.backgroundPositionY = `${offset}px`;
-                }
-            }
+            if (heroBg) heroBg.style.transform = `translateY(${scrolled * 0.22}px)`;
         });
-        // Update NY Time and Status
+
+        // Update NY Time and Open/Closed Status
         function updateNYStatus() {
             const timeEl = document.getElementById('ny-time');
             const statusEl = document.getElementById('store-status');
@@ -797,26 +1089,51 @@
 
             const now = new Date();
             const nyTimeString = now.toLocaleTimeString('en-US', options);
-            timeEl.innerText = `New York: ${nyTimeString}`;
+            if (timeEl) {
+                timeEl.innerText = `New York: ${nyTimeString}`;
+            }
 
             const day = now.toLocaleDateString('en-US', { timeZone: 'America/New_York', weekday: 'long' });
-            const hour = parseInt(now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour12: false }));
 
-            // Simplified Hours: Mon, Wed, Fri-Sun: 8am - 4pm. Tue & Thu: Closed.
-            const closedDays = ['Tuesday', 'Thursday'];
+            // Updated Hours: 8am - 4pm every day besides Tuesday
+            const hourNY = parseInt(now.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', hour12: false }));
+
             let isOpen = false;
-
-            if (!closedDays.includes(day)) {
-                if (hour >= 8 && hour < 16) {
+            if (day !== 'Tuesday') {
+                if (hourNY >= 8 && hourNY < 16) {
                     isOpen = true;
                 }
             }
 
-            statusEl.innerText = isOpen ? '• Open now — come in' : '• Closed — see you soon';
+            if (statusEl) {
+                statusEl.innerHTML = isOpen ? '<span style="color: #6fb07f;">• Open Now</span> until 4 PM' : '<span style="color: #c95b5b;">• Closed</span> — Opens at 8 AM';
+            }
         }
 
-        setInterval(updateNYStatus, 1000);
+        setInterval(updateNYStatus, 60000);
         updateNYStatus();
+
+        // Active Navigation Link on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (window.scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
     </script>
 </body>
 
